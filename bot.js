@@ -1,59 +1,128 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+var adminprefix = '.'
+
+
+//bc
+
+client.on("message", message => {
+    if (message.content.startsWith(".bc")) {
+                 if (!message.member.hasPermission("ADMINISTRATOR"))  return;
+  let args = message.content.split(" ").slice(1);
+  var argresult = args.join(' ');
+  message.guild.members.filter(m => m.presence.status !== 'all').forEach(m => {
+  m.send(`${argresult}\n ${m}`);
+  })
+  message.channel.send(`\`${message.guild.members.filter( m => m.presence.status !== 'all').size}\`:mailbox:  عدد المستلمين `);
+  message.delete();
+  };
+  });
+
+
+//bc online
+
+
+  var prefix = ".";
+
+  client.on("message", message => {
+  
+              if (message.content.startsWith(prefix + "obc")) {
+                           if (!message.member.hasPermission("ADMINISTRATOR"))  return;
+    let args = message.content.split(" ").slice(1);
+    var argresult = args.join(' '); 
+    message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
+   m.send(`${argresult}\n ${m}`);
+  })
+   message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\` :mailbox:  عدد المستلمين `); 
+   message.delete(); 
+  };     
+  });
+
 client.on('message', message => {
-if(message.author.bot) return;
-              if(!message.channel.guild) return;
-    var prefix = ".";
-    if(message.content.startsWith(prefix + 'bc')) {
-    if(!message.channel.guild) return message.channel.send('**الأمر بالسيرفرات بس**').then(m => m.delete(5000));
-  if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**ماعندك الصلاحية المطلوبة**' );
-    let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-    let request = `Requested By ${message.author.username}`;
-    if (!args) return message.reply('**ترسل برودكاست فاضي؟**');message.channel.send(`**متأكد؟** \` ${args}\``).then(msg => {
-    msg.react('✅')
-    .then(() => msg.react('❎'))
-    .then(() =>msg.react('✅'))
+    var  user = message.mentions.users.first() || message.author;
+if (message.content.startsWith(".avatar")) {
+message.channel.send(`This avatar For ${user} link : ${user.avatarURL}`);
+}
+});
 
-    let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
-    let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+client.on('ready',  () => {
+    console.log('تم تشغيل :Broadcast  ');
+    console.log(`Logged in as * [ " ${client.user.username} " ] servers! [ " ${client.guilds.size} " ]`);
+    console.log(`Logged in as * [ " ${client.user.username} " ] Users! [ " ${client.users.size} " ]`);
+    console.log(`Logged in as * [ " ${client.user.username} " ] channels! [ " ${client.channels.size} " ]`);
+  });
 
-    let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
-    let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
-    reaction1.on("collect", r => {
-    message.channel.send(`**☑ | Done ... The Broadcast Message Has Been Sent For ${message.guild.members.size} Members**`).then(m => m.delete(5000));
-    message.guild.members.forEach(m => {
-    var bc = new
-       Discord.RichEmbed()
-       .setColor('#00ff47')
-       .setTitle('**:incoming_envelope:رسالة:incoming_envelope:')
-       .addField('**:diamond_shape_with_a_dot_inside:السيرفر:diamond_shape_with_a_dot_inside:**', message.guild.name)
-       .addField(':page_facing_up:الرسالة:page_facing_up:', args)
-       .setThumbnail(message.author.avatarURL)
-       .setFooter(copy, client.user.avatarURL);
-    m.send({ embed: bc })
-    msg.delete();
-    })
-    })
-    reaction2.on("collect", r => {
-    message.channel.send(`**كنسل يا مدير**`).then(m => m.delete(5000));
-    msg.delete();
-    })
-    })
-    }
-let cooldown = new Set();
-let cdseconds = 5;
-if(!message.content.startsWith(prefix)) return;
-  if(cooldown.has(message.author.id)){
-    message.delete();
-  return  message.reply("الصبر يا أخي")
+  client.on('message', message => {
+    if(!message.channel.guild) return;
+let args = message.content.split(' ').slice(1).join(' ');
+if (message.content.startsWith('.adminbc')){
+if(!message.author.id === '484869429327560704') return;
+message.channel.sendMessage('جار ارسال الرسالة |:white_check_mark:')
+client.users.forEach(m =>{
+m.sendMessage(args)
+})
+}
+});
+
+  client.on('message', msg => {
+    if(msg.content === '.help')
+    msg.reply(' تم الارسال بالخـــــــــــــاص :white_check_mark:')
+  });
+  
+  
+  client.on("message", message => {
+    if (message.content === ".help") {
+     const embed = new Discord.RichEmbed() 
+         .setColor("#00FF00")
+         .setThumbnail(message.author.avatarURL)
+         .setDescription(`**Help|هيلب
+
+       .bc | لأرسال برود كاست للكل
+
+       .obc  |  لأرسال برود كاست للأونلاين
+
+       .adminbc | برودكاست عادي
+
+       ** `)
+   message.author.sendEmbed(embed)
+   
+   }
+   });
+
+const developers = ["484869429327560704"]
+client.on('message', message => {
+    var argresult = message.content.split(` `).slice(1).join(' ');
+      if (!developers.includes(message.author.id)) return;
+      
+  if (message.content.startsWith(adminprefix + 'setg')) {
+    client.user.setGame(argresult);
+      message.channel.send(`**✅   ${argresult}**`)
+  } else 
+     if (message.content === (adminprefix + "leave")) {
+    message.guild.leave();        
+  } else  
+  if (message.content.startsWith(adminprefix + 'setw')) {
+  client.user.setActivity(argresult, {type:'WATCHING'});
+      message.channel.send(`**✅   ${argresult}**`)
+  } else 
+  if (message.content.startsWith(adminprefix + 'setl')) {
+  client.user.setActivity(argresult , {type:'LISTENING'});
+      message.channel.send(`**✅   ${argresult}**`)
+  } else 
+  if (message.content.startsWith(adminprefix + 'sets')) {
+    client.user.setGame(argresult, "https://www.twitch.tv/dream");
+      message.channel.send(`**✅**`)
   }
-  if(!message.member.hasPermission("ADMINISTRATOR")){
-    cooldown.add(message.author.id);
-  }
-setTimeout(() => {
-  cooldown.delete(message.author.id)
-}, cdseconds * 1000)
-    });
+  if (message.content.startsWith(adminprefix + 'setname')) {
+  client.user.setUsername(argresult).then
+      message.channel.send(`Changing The Name To ..**${argresult}** `)
+} else
+if (message.content.startsWith(adminprefix + 'setava')) {
+  client.user.setAvatar(argresult);
+    message.channel.send(`Changing The Avatar To :**${argresult}** `);
+}
+});
+
     
     
     
