@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-client.user.setGame(.bc | Mero Server ,"https://www.twitch.tv/bc")
 client.on('message', message => {
 if(message.author.bot) return;
               if(!message.channel.guild) return;
