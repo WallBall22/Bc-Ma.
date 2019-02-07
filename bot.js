@@ -17,7 +17,7 @@ client.user.setStatus("online")
 //bc
 
 client.on("message", message => {
-    if (message.content.startsWith("-bc")) {
+    if (message.content.startsWith("-bc2")) {
                  if (!message.member.hasPermission("ADMINISTRATOR"))  return;
   let args = message.content.split(" ").slice(1);
   var argresult = args.join(' ');
