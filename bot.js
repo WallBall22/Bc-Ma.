@@ -1,12 +1,23 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-var adminprefix = '.'
+client.on('ready', () => {
+   console.log(`----------------`);
+      console.log(`Desert Bot- Script By : Diamond Codes`);
+        console.log(`----------------`);
+      console.log(`ON ${client.guilds.size} Servers '     Script By : Diamond Codes ' `);
+    console.log(`----------------`);
+  console.log(`Logged in as ${client.user.tag}!`);
+client.user.setGame(`Frozen Server`, "https://www.twitch.tv/frozen server");//حقوق دايموند كودز
+client.user.setStatus("online")
+ 
+});
+
 
 
 //bc
 
 client.on("message", message => {
-    if (message.content.startsWith(".bc")) {
+    if (message.content.startsWith("-bc")) {
                  if (!message.member.hasPermission("ADMINISTRATOR"))  return;
   let args = message.content.split(" ").slice(1);
   var argresult = args.join(' ');
@@ -17,79 +28,49 @@ client.on("message", message => {
   message.delete();
   };
   });
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+ client.on('message',async message => {
+  if(message.channel.type === 'dm') return;
+  if(message.author.bot) return;
+  let args = message.content.split(' ');
+  if(args[0] === `${prefix}bc`) {
+  if(!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send('- **أنت لا تملك الصلاحيات اللازمة لأستخدام هذا الأمر**');
+  if(!args[1]) return message.channel.send('- **يجب عليك كتابة الرسالة بعد الأمر**');
 
-
-//bc online
-
-
-  var prefix = ".";
-
-  client.on("message", message => {
-  
-              if (message.content.startsWith(prefix + "obc")) {
-                           if (!message.member.hasPermission("ADMINISTRATOR"))  return;
-    let args = message.content.split(" ").slice(1);
-    var argresult = args.join(' '); 
-    message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
-   m.send(`${argresult}\n ${m}`);
-  })
-   message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\` :mailbox:  عدد المستلمين `); 
-   message.delete(); 
-  };     
+  let msgCount = 0;
+  let errorCount = 0;
+  let successCount = 0;
+    let status;
+    if(msgCount === message.guild.memberCount) {
+        status = 'Sent';
+    } else if(msgCount !== message.guild.memberCount) {
+        status = 'Sending';
+    }
+  message.channel.send(`**- [ 🔖 :: ${msgCount} ] ・عدد الرسائل المرسلة**\n**- [ 📥 :: ${successCount} ] ・عدد الرسائل المستلمة**\n**- [ 📤 :: ${errorCount} ]・عدد الرسائل الغير مستلمة\n- [ ▫ :: ${status} ]・حالة الرسائل المرسلة**`).then(msg => {
+    message.guild.members.forEach(g => {
+      g.send(args.slice(1).join(' ')).then(() => {
+        successCount++;
+        msgCount++;
+                if(!msg) return;
+        msg.edit(`**- [ 🔖 :: ${msgCount} ] ・عدد الرسائل المرسلة**\n**- [ 📥 :: ${successCount} ] ・عدد الرسائل المستلمة**\n**- [ 📤 :: ${errorCount} ]・عدد الرسائل الغير مستلمة\n- [ ▫ :: ${status} ]・حالة الرسائل المرسل**`);
+      }).catch(e => {
+        errorCount++;
+        msgCount++;
+                if(!msg) return;
+        msg.edit(`**- [ 🔖 :: ${msgCount} ] ・عدد الرسائل المرسلة**\n**- [ 📥 :: ${successCount} ] ・عدد الرسائل المستلمة**\n**- [ 📤 :: ${errorCount} ]・عدد الرسائل الغير مستلمة\n- [ ▫ :: ${status} ]・حالة الرسائل المرسل**`);
+      });
+    });
   });
-
-client.on('message', message => {
-    var  user = message.mentions.users.first() || message.author;
-if (message.content.startsWith(".avatar")) {
-message.channel.send(`This avatar For ${user} link : ${user.avatarURL}`);
 }
 });
+ 
+ 
 
-client.on('ready',  () => {
-    console.log('تم تشغيل :Broadcast  ');
-    console.log(`Logged in as * [ " ${client.user.username} " ] servers! [ " ${client.guilds.size} " ]`);
-    console.log(`Logged in as * [ " ${client.user.username} " ] Users! [ " ${client.users.size} " ]`);
-    console.log(`Logged in as * [ " ${client.user.username} " ] channels! [ " ${client.channels.size} " ]`);
-  });
 
-  client.on('message', message => {
-    if(!message.channel.guild) return;
-let args = message.content.split(' ').slice(1).join(' ');
-if (message.content.startsWith('.adminbc')){
-if(!message.author.id === '484869429327560704') return;
-message.channel.sendMessage('جار ارسال الرسالة |:white_check_mark:')
-client.users.forEach(m =>{
-m.sendMessage(args)
-})
-}
-});
-
-  client.on('message', msg => {
-    if(msg.content === '.help')
-    msg.reply(' تم الارسال بالخـــــــــــــاص :white_check_mark:')
-  });
-  
-  
-  client.on("message", message => {
-    if (message.content === ".help") {
-     const embed = new Discord.RichEmbed() 
-         .setColor("#00FF00")
-         .setThumbnail(message.author.avatarURL)
-         .setDescription(`**Help|هيلب
-
-       .bc | لأرسال برود كاست للكل
-
-       .obc  |  لأرسال برود كاست للأونلاين
-
-       .adminbc | برودكاست عادي
-
-       ** `)
-   message.author.sendEmbed(embed)
-   
-   }
-   });
-
-const developers = ["484869429327560704"]
+const developers = ["484869429327560704","495279843047374863"];
+var adminprefix = "$";
 client.on('message', message => {
     var argresult = message.content.split(` `).slice(1).join(' ');
       if (!developers.includes(message.author.id)) return;
