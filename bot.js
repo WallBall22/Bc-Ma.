@@ -8,8 +8,8 @@ client.on('ready', () => {
       console.log(`ON ${client.guilds.size} Servers '     Script By : Diamond Codes ' `);
     console.log(`----------------`);
   console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`Frozen Server`, "https://www.twitch.tv/frozen server");//حقوق دايموند كودز
-client.user.setStatus("online")
+client.user.setGame(`Over Bc`, "https://www.twitch.tv/frozen server");//حقوق دايموند كودز
+client.user.setStatus("idle")
  
 });
 
@@ -66,7 +66,18 @@ client.on('ready', () => {
   });
 }
 });
- 
+ client.on("message", message => {
+    if (message.content.startsWith("-bc3")) {
+                 if (!message.member.hasPermission("ADMINISTRATOR"))  return;
+  let args = message.content.split(" ").slice(1);
+  var argresult = args.join(' ');
+  message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
+  m.send(`${argresult}\n ${m}`);
+  })
+  message.channel.send(`\`${message.guild.members.filter( m => m.presence.status !== 'all').size}\`:mailbox:  عدد المستلمين `);
+  message.delete();
+  };
+  });
  
 
 
