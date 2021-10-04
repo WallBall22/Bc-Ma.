@@ -8,7 +8,7 @@ client.on('ready', () => {
       console.log(`ON ${client.guilds.size} Servers '     Script By : Diamond Codes ' `);
     console.log(`----------------`);
   console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`Rblx Server`, "https://www.twitch.tv/Roblox Bot made by Mero");//حقوق دايموند كودز
+client.user.setGame(`Rblx Server`, "https://www.twitch.tv/Roblox_Bot_Shop_bc");//حقوق دايموند كودز
 client.user.setStatus("idle")
  
 });
